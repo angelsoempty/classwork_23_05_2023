@@ -1,25 +1,33 @@
-import logging #стандартна бібліотека для логування перебігу програми
-logging.basicConfig(level=logging.DEBUG,
-                    filename= 'logs.log',
-                    filemode= 'w',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-logging.debug('debug')
-logging.info('info')
-logging.error('error')
-logging.warning('warning')
-logging.critical('critical!!!')
-try:
-    print(10/0)
-except Exception:
-    logging.exception('Помилка')
-#факторіал числа
+import logging
+# 1
+class Calc:
+    def __init__(self):
+        self.logger = logging.getLogger('Calculator')
+        self.logger.setLevel(logging.INFO)
+        self.logger.addHandler(logging.StreamHandler())
+    def add(self, a, b):
+        result = a + b
+        self.logger.info(f'{a} + {b} = {result}')
+        return result
+    def sub(self, a, b):
+        result = a - b
+        self.logger.info(f'{a} - {b} = {result}')
+        return result
+    def multiply(self, a, b):
+        result = a * b
+        self.logger.info(f'{a} * {b} = {result}')
+        return result
+    def divide(self, a, b):
+        if b != 0:
+            result = a / b
+            self.logger.info(f'{a} / {b} = {result}')
+            return result
+        else:
+            self.logger.error('Помилка! Ділити на нуль неможливо')
+            return None
 
-def factorial(n):
-    logging.info(f'Розпочато обчислення факторіалу числа {n}')
-    result = 1
-    for i in range(1, n + 1):
-        result *= i #1*2*3...
-    logging.info(f'Обчислення факторіалу числа завершено {n}.Результат {result}')
-    return result
-logging.basicConfig(level=logging.INFO)
-factorial(5)
+c = Calc()
+c.add(2, 2)
+c.sub(5, 1)
+c.multiply(5, 5)
+c.divide(4, 2)
